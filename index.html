@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code with Reyhana! 🐰</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(12px);
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      z-index: 10;
+    }
+    header .logo { font-size: 2rem; }
+    header h1 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
+    header .subtitle { font-size: 0.8rem; opacity: 0.85; }
+    header .stars-display {
+      margin-left: auto;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    /* APP LAYOUT */
+    .app {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      height: calc(100vh - 58px);
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 190px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 16px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9e9e9e;
+      padding: 0 4px;
+      margin-bottom: 4px;
+    }
+    .lesson-btn {
+      width: 100%;
+      text-align: left;
+      padding: 9px 12px;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: all 0.18s;
+      background: #f5f3ff;
+      color: #4a4a6a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lesson-btn:hover { background: #ede8ff; transform: translateX(2px); }
+    .lesson-btn.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 3px 10px rgba(102,126,234,0.4);
+    }
+    .lesson-btn .star-badge {
+      margin-left: auto;
+      font-size: 0.75rem;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    /* EDITOR PANEL */
+    .editor-panel {
+      width: 310px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .lesson-card {
+      background: rgba(255,255,255,0.97);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      overflow-y: auto;
+      max-height: 55%;
+    }
+    .lesson-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .lesson-card-emoji { font-size: 1.6rem; }
+    .lesson-card h2 { color: #5e35b1; font-size: 1rem; font-weight: 800; }
+    .lesson-card p { font-size: 0.82rem; color: #555; line-height: 1.55; margin-bottom: 8px; }
+
+    .cmd-reference {
+      background: #f5f0ff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      margin-bottom: 8px;
+    }
+    .cmd-reference .cmd-row {
+      display: flex;
+      gap: 8px;
+      margin: 3px 0;
+      align-items: baseline;
+    }
+    .cmd-name { color: #7c3aed; font-weight: 800; font-family: 'Courier New', monospace; min-width: 90px; }
+    .cmd-desc { color: #666; }
+    .cmd-alt { color: #aaa; font-size: 0.7rem; margin-left: auto; }
+
+    .challenge-box {
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      border: 2px solid #fb8c00;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      color: #e65100;
+      font-weight: 700;
+    }
+    .challenge-box .challenge-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 3px;
+      opacity: 0.7;
+    }
+
+    .math-tip {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      border: 2px solid #42a5f5;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      color: #1565c0;
+      margin-bottom: 8px;
+    }
+    .math-tip .tip-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 2px; }
+
+    /* CODE EDITOR */
+    .code-area {
+      background: rgba(255,255,255,0.97);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      overflow: hidden;
+    }
+    .code-area-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .code-area h3 { color: #5e35b1; font-size: 0.88rem; font-weight: 800; }
+    .code-hint { font-size: 0.7rem; color: #aaa; }
+
+    #codeEditor {
+      flex: 1;
+      border: 2.5px solid #e8e0ff;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      resize: none;
+      outline: none;
+      color: #2d2d4e;
+      line-height: 1.7;
+      transition: border-color 0.2s;
+      background: #fafafa;
+    }
+    #codeEditor:focus { border-color: #7c3aed; background: white; }
+
+    .btn-row { display: flex; gap: 8px; }
+    .btn-run {
+      flex: 1;
+      padding: 10px;
+      background: linear-gradient(135deg, #43a047, #66bb6a);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 3px 10px rgba(67,160,71,0.4);
+    }
+    .btn-run:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(67,160,71,0.5); }
+    .btn-run:active { transform: translateY(0); }
+
+    .btn-clear {
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #ef5350, #e53935);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-clear:hover { transform: translateY(-1px); }
+
+    .output-box {
+      background: #1e1e2e;
+      border-radius: 10px;
+      padding: 8px 12px;
+      min-height: 48px;
+      max-height: 60px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+    }
+    .out-ok { color: #a8e6a3; }
+    .out-err { color: #ff8a80; }
+    .out-info { color: #80d8ff; }
+
+    /* CANVAS PANEL */
+    .canvas-panel {
+      flex: 1;
+      background: rgba(255,255,255,0.97);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+      overflow: hidden;
+    }
+    .canvas-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .canvas-header h3 { color: #5e35b1; font-size: 0.88rem; font-weight: 800; }
+    .canvas-controls { display: flex; gap: 8px; align-items: center; }
+    .btn-small {
+      padding: 5px 12px;
+      border: none;
+      border-radius: 8px;
+      background: #f0ebff;
+      color: #5e35b1;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-small:hover { background: #e0d6ff; }
+
+    .canvas-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f8fe;
+      border-radius: 12px;
+      border: 2px solid #e8e0ff;
+      overflow: hidden;
+      position: relative;
+    }
+    #turtleCanvas {
+      display: block;
+    }
+
+    .canvas-coords {
+      position: absolute;
+      bottom: 6px;
+      right: 10px;
+      font-size: 0.7rem;
+      color: #bbb;
+      font-family: monospace;
+    }
+
+    /* STAR AWARD POPUP */
+    .award-popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .award-popup.show { display: flex; }
+    .award-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px 40px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      max-width: 360px;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.4) rotate(-5deg); opacity: 0; }
+      to { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    .award-card .big-emoji { font-size: 3.5rem; margin-bottom: 8px; }
+    .award-card h2 { color: #5e35b1; font-size: 1.6rem; margin-bottom: 6px; }
+    .award-card p { color: #666; margin-bottom: 20px; font-size: 0.9rem; }
+    .award-card .award-stars { font-size: 2rem; margin-bottom: 16px; letter-spacing: 4px; }
+    .btn-continue {
+      padding: 12px 32px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .btn-continue:hover { transform: scale(1.04); }
+
+    /* STAR CHALLENGE BUTTON */
+    .btn-star-challenge {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ffd600, #ffab00);
+      color: #5d4037;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 3px 10px rgba(255,171,0,0.4);
+      display: none;
+    }
+    .btn-star-challenge:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(255,171,0,0.5); }
+    .btn-star-challenge.visible { display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🐰</div>
+    <div>
+      <h1>Code with Reyhana!</h1>
+      <div class="subtitle">Learn to code by drawing with Cinnamoroll</div>
+    </div>
+    <div class="stars-display" id="starsDisplay">⭐ 0 / 7 Stars</div>
+  </header>
+
+  <div class="app">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-title">📚 Lessons</div>
+      <div id="lessonList"></div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <!-- EDITOR PANEL -->
+      <div class="editor-panel">
+        <div class="lesson-card" id="lessonCard"><!-- filled by JS --></div>
+        <div class="code-area">
+          <div class="code-area-header">
+            <h3>✏️ Your Code</h3>
+            <div class="code-hint">One command per line</div>
+          </div>
+          <textarea id="codeEditor" spellcheck="false" placeholder="Type your code here..."></textarea>
+          <button class="btn-star-challenge" id="btnStarChallenge" onclick="claimStar()">
+            ⭐ I did the challenge — claim my star!
+          </button>
+          <div class="btn-row">
+            <button class="btn-run" onclick="runCode()">▶ Run Code!</button>
+            <button class="btn-clear" onclick="resetAll()">🗑️ Reset</button>
+          </div>
+          <div class="output-box" id="outputBox">
+            <span class="out-info">Ready! Type some code and click Run! 🚀</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CANVAS PANEL -->
+      <div class="canvas-panel">
+        <div class="canvas-header">
+          <h3>🎨 Drawing Board</h3>
+          <div class="canvas-controls">
+            <span id="coordDisplay" style="font-size:0.7rem;color:#bbb;font-family:monospace;"></span>
+            <button class="btn-small" onclick="savePicture()">💾 Save</button>
+            <button class="btn-small" onclick="resetAll()">🔄 Reset Turtle</button>
+          </div>
+        </div>
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <canvas id="turtleCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AWARD POPUP -->
+  <div class="award-popup" id="awardPopup">
+    <div class="award-card">
+      <div class="big-emoji" id="awardEmoji">🌟</div>
+      <div class="award-stars" id="awardStars">⭐</div>
+      <h2 id="awardTitle">Amazing!</h2>
+      <p id="awardDesc">You completed the challenge!</p>
+      <button class="btn-continue" onclick="closeAward()">Next Lesson →</button>
+    </div>
+  </div>
+
+<script>
+// =============================================
+// LESSONS
+// =============================================
+const LESSONS = [
+  {
+    id: 0,
+    emoji: '🐢',
+    title: 'Meet Cinnamoroll!',
+    intro: `This is <b>Cinnamoroll</b>, your coding buddy! Cinnamoroll draws lines as he moves. Give him commands and watch him go!`,
+    mathTip: null,
+    cmds: [
+      { name: 'FORWARD 50', alt: 'FD 50', desc: 'Move forward 50 steps' },
+      { name: 'BACKWARD 30', alt: 'BK 30', desc: 'Move backward 30 steps' },
+    ],
+    challenge: 'Make Cinnamoroll draw a line 150 steps long. Try: FORWARD 150',
+    starter: 'FORWARD 100',
+  },
+  {
+    id: 1,
+    emoji: '↩️',
+    title: 'Turn & Go!',
+    intro: `Cinnamoroll can turn! <b>RIGHT</b> turns him clockwise (like a clock hand). <b>LEFT</b> turns him the other way. The number is the angle in degrees.`,
+    mathTip: '🔢 Math Tip: A full circle = 360°. Half turn = 180°. Quarter turn = 90°.',
+    cmds: [
+      { name: 'RIGHT 90', alt: 'RT 90', desc: 'Turn right 90 degrees' },
+      { name: 'LEFT 45', alt: 'LT 45', desc: 'Turn left 45 degrees' },
+      { name: 'FORWARD 80', alt: 'FD 80', desc: 'Move forward 80 steps' },
+    ],
+    challenge: 'Make an L-shape: go forward, turn right 90°, go forward again.',
+    starter: 'FORWARD 80\nRIGHT 90\nFORWARD 80',
+  },
+  {
+    id: 2,
+    emoji: '⬜',
+    title: 'Draw a Square!',
+    intro: `A square has 4 equal sides and 4 right angles. Can you figure out the commands to draw one? You need to go forward AND turn — 4 times!`,
+    mathTip: '🔢 Math Tip: A square has 4 corners. Each corner turns 90°. 4 × 90° = 360° — a full circle!',
+    cmds: [
+      { name: 'FORWARD 100', alt: 'FD 100', desc: 'Move forward' },
+      { name: 'RIGHT 90', alt: 'RT 90', desc: 'Turn right 90°' },
+    ],
+    challenge: 'Draw a complete square! (Hint: you need FORWARD and RIGHT 90, repeated 4 times)',
+    starter: 'FORWARD 100\nRIGHT 90\nFORWARD 100\nRIGHT 90',
+  },
+  {
+    id: 3,
+    emoji: '🔁',
+    title: 'Magic Repeat!',
+    intro: `Good coders are <b>lazy</b> (in a clever way)! Instead of writing the same thing 4 times, use <b>REPEAT</b>. It's like a superpower — do things over and over with one command!`,
+    mathTip: '💡 Coding Tip: Doing something over and over is called a <b>loop</b>. Loops save time and make code shorter!',
+    cmds: [
+      { name: 'REPEAT 4 [', alt: '', desc: 'Do what\'s inside 4 times' },
+      { name: '  FORWARD 100', alt: '', desc: '(indent is optional, looks nice)' },
+      { name: '  RIGHT 90', alt: '', desc: '' },
+      { name: ']', alt: '', desc: 'End of repeat' },
+    ],
+    challenge: 'Draw a square using REPEAT 4 [ FORWARD 100 RIGHT 90 ]',
+    starter: 'REPEAT 4 [\n  FORWARD 100\n  RIGHT 90\n]',
+  },
+  {
+    id: 4,
+    emoji: '🌈',
+    title: 'Rainbow Colors!',
+    intro: `Make your drawings colourful! Use <b>COLOR</b> to change what colour Cinnamoroll draws with. Try mixing colors between moves!`,
+    mathTip: null,
+    cmds: [
+      { name: 'COLOR red', alt: '', desc: 'Draw in red' },
+      { name: 'COLOR blue', alt: '', desc: 'Draw in blue' },
+      { name: 'COLOR green', alt: '', desc: 'Draw in green' },
+      { name: 'COLOR pink', alt: '', desc: 'Also: yellow, purple, orange, black' },
+    ],
+    challenge: 'Draw a square where each side is a different colour!',
+    starter: 'COLOR red\nFORWARD 100\nRIGHT 90\nCOLOR blue\nFORWARD 100\nRIGHT 90\nCOLOR green\nFORWARD 100\nRIGHT 90\nCOLOR purple\nFORWARD 100\nRIGHT 90',
+  },
+  {
+    id: 5,
+    emoji: '⭐',
+    title: 'Star Power!',
+    intro: `Did you know you can draw a star with a loop? A 5-pointed star turns a special angle at each point. Can you figure out the maths?`,
+    mathTip: '🔢 Math Tip: For a 5-point star, you turn 144° each time. 5 × 144° = 720° = 2 full circles! Try it!',
+    cmds: [
+      { name: 'REPEAT 5 [', alt: '', desc: 'Repeat 5 times for 5 points' },
+      { name: '  FORWARD 120', alt: '', desc: 'Length of each star point' },
+      { name: '  RIGHT 144', alt: '', desc: '144° = the secret star angle!' },
+      { name: ']', alt: '', desc: '' },
+    ],
+    challenge: 'Draw a star! Use REPEAT 5 [ FORWARD 120 RIGHT 144 ]',
+    starter: 'COLOR gold\nREPEAT 5 [\n  FORWARD 120\n  RIGHT 144\n]',
+  },
+  {
+    id: 6,
+    emoji: '🎨',
+    title: 'Free Create!',
+    intro: `Now it's your turn to create anything you like! Try drawing a house, a robot, a flower — whatever you can imagine. You know all the commands now!`,
+    mathTip: '💡 Try: triangles (REPEAT 3, turn 120°), hexagons (REPEAT 6, turn 60°), circles (REPEAT 36, FD 10 RT 10)!',
+    cmds: [
+      { name: 'FORWARD n', alt: 'FD n', desc: 'Move forward n steps' },
+      { name: 'BACKWARD n', alt: 'BK n', desc: 'Move backward n steps' },
+      { name: 'RIGHT n', alt: 'RT n', desc: 'Turn right n degrees' },
+      { name: 'LEFT n', alt: 'LT n', desc: 'Turn left n degrees' },
+      { name: 'COLOR name', alt: '', desc: 'Change colour' },
+      { name: 'PENUP', alt: 'PU', desc: 'Lift pen (move without drawing)' },
+      { name: 'PENDOWN', alt: 'PD', desc: 'Put pen down (draw again)' },
+      { name: 'REPEAT n [...]', alt: '', desc: 'Repeat commands n times' },
+    ],
+    challenge: 'Create anything you like! A house? A flower? A robot face?',
+    starter: '; Type anything!\n; (Lines starting with ; are notes)\n\nCOLOR purple\nREPEAT 6 [\n  FORWARD 80\n  RIGHT 60\n]',
+  },
+];
+
+// =============================================
+// PROGRESS (localStorage)
+// =============================================
+const SAVE_KEY = 'reyhana_coding_progress';
+let progress = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+
+function saveProgress() {
+  localStorage.setItem(SAVE_KEY, JSON.stringify(progress));
+}
+
+function countStars() {
+  return Object.keys(progress).filter(k => progress[k]).length;
+}
+
+function updateStarsDisplay() {
+  document.getElementById('starsDisplay').textContent = `⭐ ${countStars()} / 7 Stars`;
+}
+
+// =============================================
+// TURTLE ENGINE
+// =============================================
+const canvas = document.getElementById('turtleCanvas');
+const ctx = canvas.getContext('2d');
+
+let turtleState = {};
+let pathLog = []; // array of draw ops
+
+// Color name map
+const COLOR_MAP = {
+  red: '#e53935', blue: '#1e88e5', green: '#43a047',
+  yellow: '#fdd835', orange: '#fb8c00', purple: '#8e24aa',
+  pink: '#e91e8c', black: '#212121', white: '#ffffff',
+  gold: '#ffc107', cyan: '#00acc1', brown: '#795548',
+  grey: '#9e9e9e', gray: '#9e9e9e', lime: '#c6ef00',
+  navy: '#1a237e', teal: '#00796b', maroon: '#880e4f',
+  violet: '#7b1fa2', indigo: '#3949ab', coral: '#ff7043',
+};
+
+function resolveColor(name) {
+  if (!name) return '#212121';
+  const lower = name.toLowerCase();
+  return COLOR_MAP[lower] || (name.startsWith('#') ? name : '#' + name);
+}
+
+function initTurtle() {
+  turtleState = {
+    cx: canvas.width / 2,
+    cy: canvas.height / 2,
+    heading: 0,    // 0 = north, clockwise
+    penDown: true,
+    color: '#212121',
+    lineWidth: 2,
+    visible: true,
+  };
+  pathLog = [];
+}
+
+function redrawAll() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Subtle grid
+  ctx.strokeStyle = '#f0eeff';
+  ctx.lineWidth = 1;
+  const step = 50;
+  const cx = canvas.width / 2, cy = canvas.height / 2;
+  for (let x = cx % step; x < canvas.width; x += step) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+  }
+  for (let y = cy % step; y < canvas.height; y += step) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+  }
+  // Center cross
+  ctx.strokeStyle = '#ddd8ff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy); ctx.stroke();
+
+  // Draw all paths
+  for (const p of pathLog) {
+    ctx.beginPath();
+    ctx.strokeStyle = p.color;
+    ctx.lineWidth = p.lw;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.moveTo(p.x1, p.y1);
+    ctx.lineTo(p.x2, p.y2);
+    ctx.stroke();
+  }
+
+  // Draw turtle
+  drawTurtleSprite();
+}
+
+function drawTurtleSprite() {
+  if (!turtleState.visible) return;
+  const { cx, cy, heading } = turtleState;
+  const rad = heading * Math.PI / 180;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rad);
+
+  // --- Cinnamoroll ---
+  // "forward" direction = up (negative Y) when heading=0
+
+  // Big floppy ears (drooping to the sides, slightly forward)
+  const earColor = '#d6eeff';
+  const earStroke = '#90c4e8';
+
+  // Left ear — droops left-forward
+  ctx.beginPath();
+  ctx.ellipse(-10, -12, 5, 13, -0.5, 0, Math.PI * 2);
+  ctx.fillStyle = earColor;
+  ctx.fill();
+  ctx.strokeStyle = earStroke;
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+  // Inner left ear
+  ctx.beginPath();
+  ctx.ellipse(-10, -12, 2.5, 8, -0.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#fce4ec';
+  ctx.fill();
+
+  // Right ear — droops right-forward
+  ctx.beginPath();
+  ctx.ellipse(10, -12, 5, 13, 0.5, 0, Math.PI * 2);
+  ctx.fillStyle = earColor;
+  ctx.fill();
+  ctx.strokeStyle = earStroke;
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+  // Inner right ear
+  ctx.beginPath();
+  ctx.ellipse(10, -12, 2.5, 8, 0.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#fce4ec';
+  ctx.fill();
+
+  // Body — chubby round
+  const bodyGrad = ctx.createRadialGradient(-3, -3, 2, 0, 0, 13);
+  bodyGrad.addColorStop(0, '#ffffff');
+  bodyGrad.addColorStop(1, '#e8f4fd');
+  ctx.beginPath();
+  ctx.arc(0, 0, 13, 0, Math.PI * 2);
+  ctx.fillStyle = bodyGrad;
+  ctx.fill();
+  ctx.strokeStyle = '#b3d9f5';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Rosy cheeks
+  ctx.beginPath();
+  ctx.ellipse(-7, 1, 4, 2.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 182, 193, 0.7)';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(7, 1, 4, 2.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 182, 193, 0.7)';
+  ctx.fill();
+
+  // Eyes — big blue sparkly
+  // Left eye
+  ctx.beginPath();
+  ctx.ellipse(-4.5, -2, 3, 3.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#5ba8d8';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(-4.5, -2, 2, 2.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#1a6fa8';
+  ctx.fill();
+  // Eye shine
+  ctx.beginPath();
+  ctx.arc(-3.5, -3.5, 1, 0, Math.PI * 2);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+
+  // Right eye
+  ctx.beginPath();
+  ctx.ellipse(4.5, -2, 3, 3.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#5ba8d8';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(4.5, -2, 2, 2.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#1a6fa8';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(5.5, -3.5, 1, 0, Math.PI * 2);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+
+  // Tiny nose
+  ctx.beginPath();
+  ctx.ellipse(0, 2, 1.5, 1, 0, 0, Math.PI * 2);
+  ctx.fillStyle = '#f48fb1';
+  ctx.fill();
+
+  // Little smile
+  ctx.beginPath();
+  ctx.arc(0, 2.5, 2.5, 0.1 * Math.PI, 0.9 * Math.PI);
+  ctx.strokeStyle = '#e8a0b4';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Forehead curl
+  ctx.beginPath();
+  ctx.moveTo(0, -13);
+  ctx.bezierCurveTo(3, -18, 7, -16, 4, -12);
+  ctx.strokeStyle = '#b3d9f5';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // Direction indicator — tiny paw dot at front (shows heading)
+  ctx.beginPath();
+  ctx.arc(0, -16, 2, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(90, 168, 216, 0.6)';
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function turtleForward(n) {
+  const rad = turtleState.heading * Math.PI / 180;
+  const dx = n * Math.sin(rad);
+  const dy = -n * Math.cos(rad); // negative: up = smaller y on canvas
+  const nx = turtleState.cx + dx;
+  const ny = turtleState.cy + dy;
+
+  if (turtleState.penDown) {
+    pathLog.push({
+      x1: turtleState.cx, y1: turtleState.cy,
+      x2: nx, y2: ny,
+      color: turtleState.color,
+      lw: turtleState.lineWidth,
+    });
+  }
+  turtleState.cx = nx;
+  turtleState.cy = ny;
+}
+
+function turtleRight(n) { turtleState.heading = (turtleState.heading + n + 360) % 360; }
+function turtleLeft(n)  { turtleRight(-n); }
+function turtleColor(name) { turtleState.color = resolveColor(name); }
+function turtlePenUp()   { turtleState.penDown = false; }
+function turtlePenDown() { turtleState.penDown = true; }
+function turtleWidth(n)  { turtleState.lineWidth = Math.max(0.5, Math.min(20, n)); }
+
+// =============================================
+// LOGO INTERPRETER
+// =============================================
+function tokenize(code) {
+  // Remove ; comments
+  code = code.replace(/;[^\n]*/g, '');
+  // Pad brackets
+  code = code.replace(/\[/g, ' [ ').replace(/\]/g, ' ] ');
+  return code.trim().split(/\s+/).filter(t => t.length > 0);
+}
+
+function findBlockEnd(tokens, pos) {
+  // pos is the first token INSIDE the block (after [)
+  let depth = 0;
+  let i = pos;
+  while (i < tokens.length) {
+    if (tokens[i] === '[') depth++;
+    else if (tokens[i] === ']') {
+      if (depth === 0) return i;
+      depth--;
+    }
+    i++;
+  }
+  throw new Error('Missing ] — did you forget to close a REPEAT block?');
+}
+
+let execCount = 0;
+const MAX_STEPS = 100000;
+
+function executeOne(tokens, pos) {
+  if (++execCount > MAX_STEPS) throw new Error('Too many steps! Try a smaller REPEAT number.');
+
+  const tok = tokens[pos].toUpperCase();
+
+  // Skip stray brackets
+  if (tok === '[' || tok === ']') return pos + 1;
+
+  switch (tok) {
+    case 'FORWARD': case 'FD': {
+      const n = parseFloat(tokens[pos + 1]);
+      if (isNaN(n)) throw new Error(`FORWARD needs a number, got: "${tokens[pos + 1]}"`);
+      turtleForward(n);
+      return pos + 2;
+    }
+    case 'BACKWARD': case 'BK': case 'BACK': {
+      const n = parseFloat(tokens[pos + 1]);
+      if (isNaN(n)) throw new Error(`BACKWARD needs a number, got: "${tokens[pos + 1]}"`);
+      turtleForward(-n);
+      return pos + 2;
+    }
+    case 'RIGHT': case 'RT': {
+      const n = parseFloat(tokens[pos + 1]);
+      if (isNaN(n)) throw new Error(`RIGHT needs a number, got: "${tokens[pos + 1]}"`);
+      turtleRight(n);
+      return pos + 2;
+    }
+    case 'LEFT': case 'LT': {
+      const n = parseFloat(tokens[pos + 1]);
+      if (isNaN(n)) throw new Error(`LEFT needs a number, got: "${tokens[pos + 1]}"`);
+      turtleLeft(n);
+      return pos + 2;
+    }
+    case 'COLOR': case 'COLOUR': {
+      if (pos + 1 >= tokens.length) throw new Error('COLOR needs a color name');
+      turtleColor(tokens[pos + 1]);
+      return pos + 2;
+    }
+    case 'PENUP': case 'PU': {
+      turtlePenUp();
+      return pos + 1;
+    }
+    case 'PENDOWN': case 'PD': {
+      turtlePenDown();
+      return pos + 1;
+    }
+    case 'WIDTH': case 'SETWIDTH': {
+      const n = parseFloat(tokens[pos + 1]);
+      if (isNaN(n)) throw new Error(`WIDTH needs a number`);
+      turtleWidth(n);
+      return pos + 2;
+    }
+    case 'CLEAR': case 'CLS': {
+      pathLog = [];
+      return pos + 1;
+    }
+    case 'REPEAT': {
+      const times = parseInt(tokens[pos + 1]);
+      if (isNaN(times) || times < 0) throw new Error(`REPEAT needs a positive number, got: "${tokens[pos + 1]}"`);
+      if (times > 10000) throw new Error(`REPEAT ${times} is too many! Try a smaller number.`);
+      const openBracket = pos + 2;
+      if (!tokens[openBracket] || tokens[openBracket] !== '[')
+        throw new Error(`REPEAT ${times} needs [ right after the number`);
+      const blockStart = openBracket + 1;
+      const blockEnd = findBlockEnd(tokens, blockStart);
+
+      for (let i = 0; i < times; i++) {
+        let inner = blockStart;
+        while (inner < blockEnd) {
+          inner = executeOne(tokens, inner);
+        }
+      }
+      return blockEnd + 1;
+    }
+    default:
+      throw new Error(`I don't know the command "${tok}". Check your spelling!`);
+  }
+}
+
+function runProgram(code) {
+  execCount = 0;
+  const tokens = tokenize(code);
+  if (tokens.length === 0) return;
+  let pos = 0;
+  while (pos < tokens.length) {
+    pos = executeOne(tokens, pos);
+  }
+}
+
+// =============================================
+// UI STATE
+// =============================================
+let currentLesson = 0;
+let hasRunCode = false;
+
+function renderSidebar() {
+  const list = document.getElementById('lessonList');
+  list.innerHTML = LESSONS.map((l, i) => `
+    <button class="lesson-btn ${i === currentLesson ? 'active' : ''}"
+            onclick="goLesson(${i})">
+      <span>${l.emoji}</span>
+      <span>${l.title}</span>
+      <span class="star-badge">${progress[i] ? '⭐' : ''}</span>
+    </button>
+  `).join('');
+}
+
+function renderLessonCard(idx) {
+  const l = LESSONS[idx];
+  const card = document.getElementById('lessonCard');
+  card.innerHTML = `
+    <div class="lesson-card-header">
+      <div class="lesson-card-emoji">${l.emoji}</div>
+      <div>
+        <div style="font-size:0.7rem;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:1px">Lesson ${idx + 1} of ${LESSONS.length}</div>
+        <h2>${l.title}</h2>
+      </div>
+    </div>
+    <p>${l.intro}</p>
+    ${l.mathTip ? `<div class="math-tip"><div class="tip-label">Math Connection</div>${l.mathTip}</div>` : ''}
+    <div class="cmd-reference">
+      ${l.cmds.map(c => `
+        <div class="cmd-row">
+          <span class="cmd-name">${c.name}</span>
+          <span class="cmd-desc">${c.desc}</span>
+          ${c.alt ? `<span class="cmd-alt">(or ${c.alt})</span>` : ''}
+        </div>
+      `).join('')}
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-label">🏆 Your Challenge</div>
+      ${l.challenge}
+    </div>
+  `;
+}
+
+function goLesson(idx) {
+  currentLesson = idx;
+  hasRunCode = false;
+  document.getElementById('btnStarChallenge').classList.remove('visible');
+  renderSidebar();
+  renderLessonCard(idx);
+  document.getElementById('codeEditor').value = LESSONS[idx].starter;
+  setOutput('Ready! Click ▶ Run Code to try it! 🚀', 'info');
+  // Don't auto-reset canvas — let user keep their drawing
+}
+
+function setOutput(msg, type = 'ok') {
+  const box = document.getElementById('outputBox');
+  box.innerHTML = `<span class="out-${type}">${msg}</span>`;
+}
+
+// =============================================
+// MAIN ACTIONS
+// =============================================
+function runCode() {
+  const code = document.getElementById('codeEditor').value.trim();
+  if (!code) { setOutput('Write some code first! 😊', 'info'); return; }
+
+  // Save turtle state so we can restore if error
+  const savedState = JSON.parse(JSON.stringify(turtleState));
+  const savedPaths = [...pathLog];
+
+  try {
+    runProgram(code);
+    redrawAll();
+    hasRunCode = true;
+    setOutput('✅ Code ran! Does it look right?', 'ok');
+    document.getElementById('btnStarChallenge').classList.add('visible');
+  } catch (err) {
+    // Restore on error
+    turtleState = savedState;
+    pathLog = savedPaths;
+    redrawAll();
+    setOutput(`❌ ${err.message}`, 'err');
+  }
+}
+
+function resetAll() {
+  initTurtle();
+  redrawAll();
+  hasRunCode = false;
+  document.getElementById('btnStarChallenge').classList.remove('visible');
+  setOutput('Canvas cleared! Start fresh. 🐢', 'info');
+}
+
+function claimStar() {
+  if (!hasRunCode) {
+    setOutput('Run your code first, then claim your star! 😊', 'info');
+    return;
+  }
+  const alreadyHad = progress[currentLesson];
+  progress[currentLesson] = true;
+  saveProgress();
+  updateStarsDisplay();
+  renderSidebar();
+
+  if (!alreadyHad) {
+    showAward(currentLesson);
+  } else {
+    setOutput('⭐ Star already earned! Great job revisiting this lesson!', 'ok');
+    // Auto-advance
+    if (currentLesson < LESSONS.length - 1) goLesson(currentLesson + 1);
+  }
+}
+
+function showAward(idx) {
+  const l = LESSONS[idx];
+  const messages = [
+    ['🎉', 'Cinnamoroll loves you!', 'You made Cinnamoroll move for the first time!'],
+    ['🌀', 'Turning Champion!', 'You mastered angles like a maths superstar!'],
+    ['⬜', 'Shape Maker!', 'A perfect square — geometry in action!'],
+    ['🔁', 'Loop Master!', 'Loops make coding SO much easier — you\'re thinking like a programmer!'],
+    ['🌈', 'Colour Wizard!', 'Your drawing is beautiful and colourful!'],
+    ['⭐', 'Star Power!', 'You used secret maths to draw a star. 5 × 144° = 720°! Brilliant!'],
+    ['🏆', 'Coding Superstar!', 'You\'ve finished all the lessons! Keep creating amazing things!'],
+  ];
+  const [em, title, desc] = messages[idx] || ['🌟', 'Amazing!', 'You did it!'];
+  document.getElementById('awardEmoji').textContent = em;
+  document.getElementById('awardTitle').textContent = title;
+  document.getElementById('awardDesc').textContent = desc;
+  document.getElementById('awardStars').textContent = '⭐'.repeat(countStars());
+  document.getElementById('awardPopup').classList.add('show');
+}
+
+function closeAward() {
+  document.getElementById('awardPopup').classList.remove('show');
+  if (currentLesson < LESSONS.length - 1) {
+    goLesson(currentLesson + 1);
+  }
+}
+
+function savePicture() {
+  redrawAll();
+  const link = document.createElement('a');
+  link.download = `reyhana-art-${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// =============================================
+// CANVAS SIZING
+// =============================================
+function resizeCanvas() {
+  const wrapper = document.getElementById('canvasWrapper');
+  const w = wrapper.clientWidth - 4;
+  const h = wrapper.clientHeight - 4;
+  const size = Math.min(w, h);
+
+  // Save current drawing paths in relative coords before resize
+  const oldW = canvas.width || size;
+  const oldH = canvas.height || size;
+  const oldCX = oldW / 2;
+  const oldCY = oldH / 2;
+
+  canvas.width = size;
+  canvas.height = size;
+
+  // Translate saved paths to new coords
+  const newCX = size / 2;
+  const newCY = size / 2;
+  const dx = newCX - oldCX;
+  const dy = newCY - oldCY;
+
+  for (const p of pathLog) {
+    p.x1 += dx; p.y1 += dy;
+    p.x2 += dx; p.y2 += dy;
+  }
+  turtleState.cx += dx;
+  turtleState.cy += dy;
+
+  redrawAll();
+}
+
+// Coord display on hover
+document.getElementById('canvasWrapper').addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.round(e.clientX - rect.left - canvas.width / 2);
+  const y = Math.round(-(e.clientY - rect.top - canvas.height / 2));
+  document.getElementById('coordDisplay').textContent = `x:${x} y:${y}`;
+});
+
+// Keyboard shortcut: Ctrl+Enter to run
+document.getElementById('codeEditor').addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    runCode();
+  }
+});
+
+// Tab key inserts spaces in editor
+document.getElementById('codeEditor').addEventListener('keydown', (e) => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const el = e.target;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    el.value = el.value.substring(0, start) + '  ' + el.value.substring(end);
+    el.selectionStart = el.selectionEnd = start + 2;
+  }
+});
+
+// =============================================
+// INIT
+// =============================================
+window.addEventListener('load', () => {
+  resizeCanvas();
+  initTurtle();
+  redrawAll();
+  renderSidebar();
+  goLesson(0);
+  updateStarsDisplay();
+});
+
+window.addEventListener('resize', () => {
+  resizeCanvas();
+});
+</script>
+</body>
+</html>
